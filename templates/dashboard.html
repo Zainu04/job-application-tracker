@@ -1,0 +1,404 @@
+
+{% extends "base.html" %}
+
+{% block title %}Your Job Search, Organized{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-inner">
+
+        <div class="hero-copy">
+            <span class="hero-eyebrow">
+                <span class="eyebrow-line"></span>
+                A BETTER WAY TO NAVIGATE YOUR CAREER
+            </span>
+
+            <h1>
+                Your next opportunity
+                <span>starts here.</span>
+            </h1>
+
+            <p class="hero-description">
+                Your job search deserves more than scattered spreadsheets
+                and forgotten follow-ups. Bring every opportunity, application,
+                and connection together in one thoughtful workspace.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#tracker" class="btn btn-primary hero-primary">
+                    Get Started <span>↗</span>
+                </a>
+
+                <a href="#features" class="btn btn-outline hero-secondary">
+                    Explore Features <span>↓</span>
+                </a>
+            </div>
+
+            <div class="hero-note">
+                <span class="hero-note-icon">✦</span>
+                <span>One workspace. Every opportunity. Your next chapter.</span>
+            </div>
+        </div>
+
+        <!-- Product preview -->
+        <div class="hero-visual">
+            <div class="preview-window">
+
+                <div class="preview-topbar">
+                    <div class="preview-brand">pursuit<span>.</span></div>
+                    <div class="preview-dots">
+                        <i></i><i></i><i></i>
+                    </div>
+                </div>
+
+                <div class="preview-content">
+                    <div class="preview-heading">
+                        <div>
+                            <span class="preview-overline">YOUR WORKSPACE</span>
+                            <h3>Application overview</h3>
+                        </div>
+                        <span class="preview-date">This month</span>
+                    </div>
+
+                    <div class="preview-stats">
+                        <div class="preview-stat">
+                            <span>Applications</span>
+                            <strong>{{ stats.applications }}</strong>
+                            <small>Total tracked</small>
+                        </div>
+                        <div class="preview-stat preview-stat-highlight">
+                            <span>Interviews</span>
+                            <strong>{{ stats.interviews }}</strong>
+                            <small>Moving forward</small>
+                        </div>
+                    </div>
+
+                    <div class="preview-list-heading">
+                        <strong>Recent activity</strong>
+                        <span>Latest applications</span>
+                    </div>
+
+                    {% if recent_applications %}
+                        {% for application in recent_applications[:3] %}
+                        <div class="preview-application">
+                            <div class="preview-company-mark">
+                                {{ application.company_name[:1]|upper }}
+                            </div>
+                            <div class="preview-job">
+                                <strong>{{ application.job_title }}</strong>
+                                <span>{{ application.company_name }}</span>
+                            </div>
+                            <span class="preview-status status-{{ application.status|lower }}">
+                                {{ application.status }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="preview-application">
+                            <div class="preview-company-mark">A</div>
+                            <div class="preview-job">
+                                <strong>Product Designer</strong>
+                                <span>Company example</span>
+                            </div>
+                            <span class="preview-status status-interview">Interview</span>
+                        </div>
+                        <div class="preview-application">
+                            <div class="preview-company-mark">B</div>
+                            <div class="preview-job">
+                                <strong>UX Research Intern</strong>
+                                <span>Company example</span>
+                            </div>
+                            <span class="preview-status status-applied">Applied</span>
+                        </div>
+                        <div class="preview-application">
+                            <div class="preview-company-mark">C</div>
+                            <div class="preview-job">
+                                <strong>Business Analyst</strong>
+                                <span>Company example</span>
+                            </div>
+                            <span class="preview-status status-screening">Screening</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="preview-bottom">
+                        <span>✦ Your next opportunity is worth pursuing.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-note">
+                <span class="floating-note-icon">↗</span>
+                <div>
+                    <strong>Stay on track</strong>
+                    <small>All your opportunities, in one place</small>
+                </div>
+            </div>
+
+            <div class="hero-decoration hero-decoration-one"></div>
+            <div class="hero-decoration hero-decoration-two"></div>
+        </div>
+
+    </div>
+
+    <a href="#features" class="scroll-cue">
+        <span>SCROLL TO EXPLORE</span>
+        <span>↓</span>
+    </a>
+</section>
+
+
+<!-- INTRODUCTION -->
+<section class="intro-section" id="features">
+    <div class="section-container intro-inner">
+        <div class="intro-label">
+            <span class="eyebrow-line"></span>
+            THE PURSUIT APPROACH
+        </div>
+
+        <div class="intro-content">
+            <h2>
+                Less time organizing.
+                <span>More time moving forward.</span>
+            </h2>
+
+            <p>
+                Searching for a job can quickly become a job of its own.
+                Pursuit gives you one organized place to manage the details
+                so you can focus on finding the right opportunity.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- FEATURE CARDS -->
+<section class="features-section">
+    <div class="section-container">
+
+        <div class="section-heading-block">
+            <span class="section-kicker">BUILT AROUND YOUR JOB SEARCH</span>
+            <h2>Everything in its <em>right place.</em></h2>
+            <p>From the first saved listing to the final interview, keep every step organized.</p>
+        </div>
+
+        <div class="feature-grid">
+
+            <article class="feature-card feature-card-large">
+                <div class="feature-card-top">
+                    <span class="feature-number">01 / ORGANIZE</span>
+                    <span class="feature-symbol">▤</span>
+                </div>
+                <div class="feature-illustration mini-board">
+                    <div class="mini-board-column">
+                        <span>APPLIED</span>
+                        <div class="mini-board-item"></div>
+                        <div class="mini-board-item short"></div>
+                    </div>
+                    <div class="mini-board-column">
+                        <span>INTERVIEW</span>
+                        <div class="mini-board-item sage-item"></div>
+                        <div class="mini-board-item short sage-item"></div>
+                    </div>
+                    <div class="mini-board-column">
+                        <span>OFFER</span>
+                        <div class="mini-board-item gold-item"></div>
+                    </div>
+                </div>
+                <h3>Every application, accounted for.</h3>
+                <p>Track your applications, update their progress, and see your job search at a glance.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-card-top">
+                    <span class="feature-number">02 / DISCOVER</span>
+                    <span class="feature-symbol">◎</span>
+                </div>
+                <div class="feature-illustration match-illustration">
+                    <div class="match-circle">
+                        <strong>86%</strong>
+                        <span>MATCH</span>
+                    </div>
+                    <div class="match-lines">
+                        <i></i><i></i><i></i>
+                    </div>
+                </div>
+                <h3>Find where your skills fit.</h3>
+                <p>Compare your skills with job requirements and discover where you stand.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-card-top">
+                    <span class="feature-number">03 / CONNECT</span>
+                    <span class="feature-symbol">✧</span>
+                </div>
+                <div class="feature-illustration contact-illustration">
+                    <div class="contact-avatar">JD</div>
+                    <div class="contact-lines">
+                        <i></i><i></i>
+                        <span>Recruiter contact</span>
+                    </div>
+                    <div class="contact-small-card">Company connection</div>
+                </div>
+                <h3>Keep your connections close.</h3>
+                <p>Save recruiter details, hiring contacts, and notes for every company.</p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- WORKSPACE OVERVIEW -->
+<section class="workspace-section" id="tracker">
+    <div class="section-container">
+
+        <div class="workspace-heading">
+            <div>
+                <span class="section-kicker">YOUR PERSONAL JOB SEARCH HUB</span>
+                <h2>A clearer view of <em>what's next.</em></h2>
+                <p>Keep your progress visible and your next steps within reach.</p>
+            </div>
+
+            <a href="{{ url_for('applications') }}" class="btn btn-primary">
+                Open Your Tracker <span>↗</span>
+            </a>
+        </div>
+
+        <div class="workspace-panel">
+
+            <div class="workspace-panel-header">
+                <div>
+                    <span class="preview-overline">YOUR OVERVIEW</span>
+                    <h3>Your job search, at a glance.</h3>
+                </div>
+                <span class="workspace-live-label">
+                    <i></i> LIVE OVERVIEW
+                </span>
+            </div>
+
+            <div class="workspace-stats">
+                <div class="workspace-stat">
+                    <span>Total applications</span>
+                    <strong>{{ stats.applications }}</strong>
+                    <small>Opportunities you're pursuing</small>
+                </div>
+                <div class="workspace-stat">
+                    <span>Interviews</span>
+                    <strong>{{ stats.interviews }}</strong>
+                    <small>Conversations in progress</small>
+                </div>
+                <div class="workspace-stat">
+                    <span>Companies</span>
+                    <strong>{{ stats.companies }}</strong>
+                    <small>On your radar</small>
+                </div>
+                <div class="workspace-stat">
+                    <span>Jobs tracked</span>
+                    <strong>{{ stats.jobs }}</strong>
+                    <small>Roles you're considering</small>
+                </div>
+            </div>
+
+            <div class="workspace-table-heading">
+                <div>
+                    <span class="preview-overline">KEEP AN EYE ON</span>
+                    <h3>Recent applications</h3>
+                </div>
+                <a href="{{ url_for('applications') }}">View all applications →</a>
+            </div>
+
+            {% if recent_applications %}
+            <div class="table-container workspace-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>COMPANY</th>
+                            <th>POSITION</th>
+                            <th>DATE APPLIED</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in recent_applications %}
+                        <tr>
+                            <td>{{ application.company_name }}</td>
+                            <td>{{ application.job_title }}</td>
+                            <td>{{ application.application_date.strftime('%b %d, %Y') }}</td>
+                            <td>
+                                <span class="preview-status status-{{ application.status|lower }}">
+                                    {{ application.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="workspace-empty">
+                <span>✦</span>
+                <h3>Your next opportunity starts with one step.</h3>
+                <p>Add your first application and start building your job search overview.</p>
+                <a href="{{ url_for('applications') }}" class="text-link">
+                    Start tracking applications →
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how-it-works">
+    <div class="section-container how-inner">
+        <div class="how-heading">
+            <span class="section-kicker">A MORE INTENTIONAL APPROACH</span>
+            <h2>Your search.<br><em>Your next chapter.</em></h2>
+            <p>Bring structure to your search without losing sight of what matters: finding the right fit.</p>
+        </div>
+
+        <div class="steps-list">
+            <div class="step-item">
+                <span class="step-number">01</span>
+                <div>
+                    <h3>Save your opportunities</h3>
+                    <p>Add jobs and companies you're interested in.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <span class="step-number">02</span>
+                <div>
+                    <h3>Keep every detail organized</h3>
+                    <p>Track applications, contacts, statuses, and interview notes.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <span class="step-number">03</span>
+                <div>
+                    <h3>Move forward with clarity</h3>
+                    <p>Review your progress and find opportunities that fit your skills.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- FINAL CTA -->
+<section class="final-cta-section">
+    <div class="final-cta-content">
+        <span class="section-kicker">YOUR NEXT CHAPTER IS OUT THERE</span>
+        <h2>Make every opportunity <em>count.</em></h2>
+        <p>Bring your job search together and take the next step with confidence.</p>
+        <a href="{{ url_for('applications') }}" class="btn btn-light">
+            Start Your Pursuit <span>↗</span>
+        </a>
+    </div>
+    <div class="cta-decoration"></div>
+</section>
+
+{% endblock %}
