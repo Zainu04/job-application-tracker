@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Pursuit{% endblock %} | Pursuit</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">Pursuit<span>.</span></div>
+            <div class="brand-subtitle">Your career, in motion</div>
+
+            <div class="nav-label">Workspace</div>
+
+            <nav class="nav-links">
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <span class="nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('applications') }}"
+                   class="nav-link {% if request.endpoint == 'applications' %}active{% endif %}">
+                    <span class="nav-icon">▤</span>
+                    Applications
+                </a>
+
+                <a href="{{ url_for('companies') }}"
+                   class="nav-link {% if request.endpoint == 'companies' %}active{% endif %}">
+                    <span class="nav-icon">▦</span>
+                    Companies
+                </a>
+
+                <a href="{{ url_for('jobs') }}"
+                   class="nav-link {% if request.endpoint == 'jobs' %}active{% endif %}">
+                    <span class="nav-icon">✧</span>
+                    Jobs
+                </a>
+
+                <a href="{{ url_for('contacts') }}"
+                   class="nav-link {% if request.endpoint == 'contacts' %}active{% endif %}">
+                    <span class="nav-icon">♧</span>
+                    Contacts
+                </a>
+
+                <a href="{{ url_for('job_match') }}"
+                   class="nav-link {% if request.endpoint == 'job_match' %}active{% endif %}">
+                    <span class="nav-icon">◎</span>
+                    Job Match
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <p>Stay focused. Keep moving forward.</p>
+            </div>
+
+        </aside>
+
+        <!-- Main content -->
+        <div class="main-content">
+
+            <header class="topbar">
+                <div class="breadcrumb">Workspace / {% block breadcrumb %}Dashboard{% endblock %}</div>
+                <div class="topbar-label">Your next chapter starts here.</div>
+            </header>
+
+            <main class="page-content">
+
+                {% block content %}{% endblock %}
+
+            </main>
+
+        </div>
+
+    </div>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>
