@@ -1,0 +1,275 @@
+
+{% extends "base.html" %}
+
+{% block title %}Companies{% endblock %}
+
+{% block content %}
+<section class="companies-page">
+
+    <div class="companies-heading">
+        <div>
+            <p class="eyebrow">YOUR NETWORK, YOUR NEXT MOVE</p>
+            <h1>Companies</h1>
+            <p class="page-description">
+                Keep track of the organizations you're interested in and the
+                opportunities they offer.
+            </p>
+        </div>
+
+        <a href="#add-company" class="primary-button">
+            + Add a company
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="companies-overview">
+        <div class="company-overview-card">
+            <span class="overview-label">Companies saved</span>
+            <strong>{{ companies|length }}</strong>
+            <span class="overview-note">In your collection</span>
+        </div>
+
+        <div class="company-overview-card">
+            <span class="overview-label">Open opportunities</span>
+            <strong>{{ companies|sum(attribute='job_count') }}</strong>
+            <span class="overview-note">Jobs connected to your companies</span>
+        </div>
+    </div>
+
+    <div class="companies-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">YOUR COLLECTION</p>
+                <h2>Saved companies</h2>
+            </div>
+            <span class="company-count">{{ companies|length }} total</span>
+        </div>
+
+        {% if companies %}
+            <div class="companies-grid">
+                {% for company in companies %}
+                    <article class="company-card">
+
+                        <div class="company-card-top">
+                            <div class="company-monogram">
+                                {{ company.company_name[:1]|upper }}
+                            </div>
+
+                            <span class="company-industry">
+                                {{ company.industry or "Industry not added" }}
+                            </span>
+                        </div>
+
+                        <h3>{{ company.company_name }}</h3>
+
+                        <p class="company-location">
+                            {% if company.city or company.state %}
+                                {{ company.city or "" }}{% if company.city and company.state %}, {% endif %}{{ company.state or "" }}
+                            {% else %}
+                                Location not added
+                            {% endif %}
+                        </p>
+
+                        <div class="company-card-meta">
+                            <span>
+                                {{ company.job_count }}
+                                {% if company.job_count == 1 %}job{% else %}jobs{% endif %}
+                            </span>
+
+                            {% if company.website %}
+                                <a href="{{ company.website if company.website.startswith('http') else 'https://' + company.website }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                    Visit website ↗
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        {% if company.notes %}
+                            <p class="company-notes">{{ company.notes }}</p>
+                        {% endif %}
+
+                        <details class="company-edit-details">
+                            <summary>Edit company</summary>
+
+                            <form
+                                action="{{ url_for('edit_company', company_id=company.company_id) }}"
+                                method="POST"
+                                class="company-form"
+                            >
+                                <label>Company name</label>
+                                <input
+                                    type="text"
+                                    name="company_name"
+                                    value="{{ company.company_name }}"
+                                    required
+                                >
+
+                                <label>Industry</label>
+                                <input
+                                    type="text"
+                                    name="industry"
+                                    value="{{ company.industry or '' }}"
+                                >
+
+                                <label>Website</label>
+                                <input
+                                    type="text"
+                                    name="website"
+                                    value="{{ company.website or '' }}"
+                                    placeholder="https://example.com"
+                                >
+
+                                <div class="company-form-row">
+                                    <div>
+                                        <label>City</label>
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            value="{{ company.city or '' }}"
+                                        >
+                                    </div>
+
+                                    <div>
+                                        <label>State</label>
+                                        <input
+                                            type="text"
+                                            name="state"
+                                            value="{{ company.state or '' }}"
+                                        >
+                                    </div>
+                                </div>
+
+                                <label>Notes</label>
+                                <textarea name="notes" rows="3">{{ company.notes or '' }}</textarea>
+
+                                <button type="submit" class="primary-button">
+                                    Save changes
+                                </button>
+                            </form>
+                        </details>
+
+                        <form
+                            action="{{ url_for('delete_company', company_id=company.company_id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this company?');"
+                            class="company-delete-form"
+                        >
+                            <button type="submit" class="text-button delete-button">
+                                Delete company
+                            </button>
+                        </form>
+
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="companies-empty">
+                <div class="empty-icon">✳</div>
+                <h3>Your company list starts here.</h3>
+                <p>
+                    Save the organizations you're interested in so you can
+                    keep their opportunities and contacts organized in one place.
+                </p>
+                <a href="#add-company" class="primary-button">
+                    Add your first company
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <section class="add-company-section" id="add-company">
+        <div class="add-company-intro">
+            <p class="eyebrow">GROW YOUR COLLECTION</p>
+            <h2>Add a company</h2>
+            <p>
+                Start with the basics. You can always update the details later.
+            </p>
+        </div>
+
+        <form action="{{ url_for('add_company') }}" method="POST" class="add-company-form">
+
+            <div class="company-form-row">
+                <div class="form-field">
+                    <label for="company_name">Company name *</label>
+                    <input
+                        type="text"
+                        id="company_name"
+                        name="company_name"
+                        placeholder="e.g. Microsoft"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="industry">Industry</label>
+                    <input
+                        type="text"
+                        id="industry"
+                        name="industry"
+                        placeholder="e.g. Technology"
+                    >
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="website">Company website</label>
+                <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    placeholder="https://example.com"
+                >
+            </div>
+
+            <div class="company-form-row">
+                <div class="form-field">
+                    <label for="city">City</label>
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        placeholder="e.g. Miami"
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="state">State</label>
+                    <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        placeholder="e.g. Florida"
+                    >
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="notes">Notes</label>
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="Anything you want to remember about this company..."
+                ></textarea>
+            </div>
+
+            <button type="submit" class="primary-button">
+                Save company
+            </button>
+        </form>
+    </section>
+
+</section>
+{% endblock %}

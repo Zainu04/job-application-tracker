@@ -1,0 +1,531 @@
+
+{% extends "base.html" %}
+
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+<section class="applications-page">
+
+    <!-- Page heading -->
+    <div class="applications-heading">
+        <div>
+            <p class="eyebrow">YOUR CAREER JOURNEY</p>
+            <h1>Application <em>tracker.</em></h1>
+            <p class="page-description">
+                Keep every opportunity organized, from the first click to the final offer.
+            </p>
+        </div>
+        <a href="#add-application" class="primary-button">+ Add application</a>
+    </div>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Summary statistics -->
+    <div class="application-summary">
+        <div class="summary-item">
+            <span class="summary-label">Saved jobs</span>
+            <strong>{{ saved_jobs|length }}</strong>
+        </div>
+
+        <div class="summary-item">
+            <span class="summary-label">Applications sent</span>
+            <strong>{{ applications|length }}</strong>
+        </div>
+
+        <div class="summary-item">
+            <span class="summary-label">In progress</span>
+            <strong>{{ applications|selectattr('status', 'in', ['Screening', 'Interview'])|list|length }}</strong>
+        </div>
+
+        <div class="summary-item">
+            <span class="summary-label">Offers</span>
+            <strong>{{ applications|selectattr('status', 'equalto', 'Offer')|list|length }}</strong>
+        </div>
+    </div>
+
+    <!-- Application board heading -->
+    <div class="application-board-heading">
+        <div>
+            <p class="eyebrow">THE BIG PICTURE</p>
+            <h2>Your application board</h2>
+        </div>
+        <span class="board-caption">A little progress every day adds up.</span>
+    </div>
+
+    <!-- Application board -->
+    <div class="application-board">
+
+        <!-- Bookmarked -->
+        <section class="board-column">
+            <div class="board-column-heading">
+                <span class="column-dot saved-dot"></span>
+                <h3>Bookmarked</h3>
+                <span class="column-count">{{ saved_jobs|length }}</span>
+            </div>
+
+            {% for job in saved_jobs %}
+                <article class="application-card saved-card">
+                    <span class="card-status">SAVED JOB</span>
+                    <h4>{{ job.job_title }}</h4>
+                    <p class="card-company">{{ job.company_name }}</p>
+
+                    {% if job.job_type %}
+                        <span class="card-meta">{{ job.job_type }}</span>
+                    {% endif %}
+
+                    {% if job.job_url %}
+                        <a class="card-link"
+                           href="{{ job.job_url }}"
+                           target="_blank"
+                           rel="noopener">
+                            View job posting ↗
+                        </a>
+                    {% endif %}
+
+                    <p class="saved-hint">Ready when you are</p>
+                </article>
+            {% else %}
+                <div class="board-empty">No saved jobs yet.</div>
+            {% endfor %}
+        </section>
+
+        <!-- Applied -->
+        <section class="board-column">
+            <div class="board-column-heading">
+                <span class="column-dot applied-dot"></span>
+                <h3>Applied</h3>
+                <span class="column-count">
+                    {{ applications|selectattr('status', 'equalto', 'Applied')|list|length }}
+                </span>
+            </div>
+
+            {% for item in applications if item.status == 'Applied' %}
+                <article class="application-card">
+                    <span class="card-status applied-status">APPLICATION SENT</span>
+                    <h4>{{ item.job_title }}</h4>
+                    <p class="card-company">{{ item.company_name }}</p>
+                    <p class="card-date">
+                        Applied {{ item.application_date.strftime('%b %d, %Y') }}
+                    </p>
+
+                    <details class="edit-details">
+                        <summary>Edit application</summary>
+
+                        <form method="POST"
+                              action="{{ url_for('edit_application', application_id=item.application_id) }}"
+                              class="inline-edit-form">
+
+                            <label>Application date</label>
+                            <input type="date"
+                                   name="application_date"
+                                   value="{{ item.application_date }}"
+                                   required>
+
+                            <label>Status</label>
+                            <select name="status">
+                                {% for status in statuses %}
+                                    <option value="{{ status }}"
+                                        {% if item.status == status %}selected{% endif %}>
+                                        {{ status }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <label>Resume version</label>
+                            <input type="text"
+                                   name="resume_version"
+                                   value="{{ item.resume_version or '' }}">
+
+                            <label>Follow-up date</label>
+                            <input type="date"
+                                   name="follow_up_date"
+                                   value="{{ item.follow_up_date }}">
+
+                            <label>Interview notes</label>
+                            <textarea name="interview_notes" rows="3">{{ item.interview_notes }}</textarea>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="cover_letter_sent"
+                                       {% if item.cover_letter_sent %}checked{% endif %}>
+                                Cover letter sent
+                            </label>
+
+                            <button type="submit" class="small-save-button">
+                                Save changes
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ url_for('delete_application', application_id=item.application_id) }}"
+                              onsubmit="return confirm('Delete this application? This cannot be undone.');">
+                            <button type="submit" class="delete-button">
+                                Delete application
+                            </button>
+                        </form>
+                    </details>
+                </article>
+            {% else %}
+                <div class="board-empty">Your next step starts here.</div>
+            {% endfor %}
+        </section>
+
+        <!-- Interviewing -->
+        <section class="board-column">
+            <div class="board-column-heading">
+                <span class="column-dot interview-dot"></span>
+                <h3>Interviewing</h3>
+                <span class="column-count">
+                    {{ applications|selectattr('status', 'in', ['Screening', 'Interview'])|list|length }}
+                </span>
+            </div>
+
+            {% for item in applications if item.status in ['Screening', 'Interview'] %}
+                <article class="application-card">
+                    <span class="card-status interview-status">{{ item.status|upper }}</span>
+                    <h4>{{ item.job_title }}</h4>
+                    <p class="card-company">{{ item.company_name }}</p>
+                    <p class="card-date">
+                        Applied {{ item.application_date.strftime('%b %d, %Y') }}
+                    </p>
+
+                    {% if item.follow_up_date %}
+                        <p class="follow-up-label">
+                            Follow up: {{ item.follow_up_date }}
+                        </p>
+                    {% endif %}
+
+                    <details class="edit-details">
+                        <summary>Edit application</summary>
+
+                        <form method="POST"
+                              action="{{ url_for('edit_application', application_id=item.application_id) }}"
+                              class="inline-edit-form">
+
+                            <label>Application date</label>
+                            <input type="date"
+                                   name="application_date"
+                                   value="{{ item.application_date }}"
+                                   required>
+
+                            <label>Status</label>
+                            <select name="status">
+                                {% for status in statuses %}
+                                    <option value="{{ status }}"
+                                        {% if item.status == status %}selected{% endif %}>
+                                        {{ status }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <label>Resume version</label>
+                            <input type="text"
+                                   name="resume_version"
+                                   value="{{ item.resume_version or '' }}">
+
+                            <label>Follow-up date</label>
+                            <input type="date"
+                                   name="follow_up_date"
+                                   value="{{ item.follow_up_date }}">
+
+                            <label>Interview notes</label>
+                            <textarea name="interview_notes" rows="3">{{ item.interview_notes }}</textarea>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="cover_letter_sent"
+                                       {% if item.cover_letter_sent %}checked{% endif %}>
+                                Cover letter sent
+                            </label>
+
+                            <button type="submit" class="small-save-button">
+                                Save changes
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ url_for('delete_application', application_id=item.application_id) }}"
+                              onsubmit="return confirm('Delete this application? This cannot be undone.');">
+                            <button type="submit" class="delete-button">
+                                Delete application
+                            </button>
+                        </form>
+                    </details>
+                </article>
+            {% else %}
+                <div class="board-empty">Good things are on the way.</div>
+            {% endfor %}
+        </section>
+
+        <!-- Offers -->
+        <section class="board-column">
+            <div class="board-column-heading">
+                <span class="column-dot offer-dot"></span>
+                <h3>Offers</h3>
+                <span class="column-count">
+                    {{ applications|selectattr('status', 'equalto', 'Offer')|list|length }}
+                </span>
+            </div>
+
+            {% for item in applications if item.status == 'Offer' %}
+                <article class="application-card">
+                    <span class="card-status offer-status">OFFER RECEIVED</span>
+                    <h4>{{ item.job_title }}</h4>
+                    <p class="card-company">{{ item.company_name }}</p>
+                    <p class="card-date">
+                        Applied {{ item.application_date.strftime('%b %d, %Y') }}
+                    </p>
+
+                    <details class="edit-details">
+                        <summary>Edit application</summary>
+
+                        <form method="POST"
+                              action="{{ url_for('edit_application', application_id=item.application_id) }}"
+                              class="inline-edit-form">
+
+                            <label>Application date</label>
+                            <input type="date"
+                                   name="application_date"
+                                   value="{{ item.application_date }}"
+                                   required>
+
+                            <label>Status</label>
+                            <select name="status">
+                                {% for status in statuses %}
+                                    <option value="{{ status }}"
+                                        {% if item.status == status %}selected{% endif %}>
+                                        {{ status }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <label>Resume version</label>
+                            <input type="text"
+                                   name="resume_version"
+                                   value="{{ item.resume_version or '' }}">
+
+                            <label>Follow-up date</label>
+                            <input type="date"
+                                   name="follow_up_date"
+                                   value="{{ item.follow_up_date }}">
+
+                            <label>Interview notes</label>
+                            <textarea name="interview_notes" rows="3">{{ item.interview_notes }}</textarea>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="cover_letter_sent"
+                                       {% if item.cover_letter_sent %}checked{% endif %}>
+                                Cover letter sent
+                            </label>
+
+                            <button type="submit" class="small-save-button">
+                                Save changes
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ url_for('delete_application', application_id=item.application_id) }}"
+                              onsubmit="return confirm('Delete this application? This cannot be undone.');">
+                            <button type="submit" class="delete-button">
+                                Delete application
+                            </button>
+                        </form>
+                    </details>
+                </article>
+            {% else %}
+                <div class="board-empty">Here's to good news.</div>
+            {% endfor %}
+        </section>
+
+        <!-- Closed -->
+        <section class="board-column">
+            <div class="board-column-heading">
+                <span class="column-dot closed-dot"></span>
+                <h3>Closed</h3>
+                <span class="column-count">
+                    {{ applications|selectattr('status', 'in', ['Rejected', 'Withdrawn'])|list|length }}
+                </span>
+            </div>
+
+            {% for item in applications if item.status in ['Rejected', 'Withdrawn'] %}
+                <article class="application-card closed-card">
+                    <span class="card-status closed-status">{{ item.status|upper }}</span>
+                    <h4>{{ item.job_title }}</h4>
+                    <p class="card-company">{{ item.company_name }}</p>
+                    <p class="card-date">
+                        Applied {{ item.application_date.strftime('%b %d, %Y') }}
+                    </p>
+
+                    <details class="edit-details">
+                        <summary>Edit application</summary>
+
+                        <form method="POST"
+                              action="{{ url_for('edit_application', application_id=item.application_id) }}"
+                              class="inline-edit-form">
+
+                            <label>Application date</label>
+                            <input type="date"
+                                   name="application_date"
+                                   value="{{ item.application_date }}"
+                                   required>
+
+                            <label>Status</label>
+                            <select name="status">
+                                {% for status in statuses %}
+                                    <option value="{{ status }}"
+                                        {% if item.status == status %}selected{% endif %}>
+                                        {{ status }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <label>Resume version</label>
+                            <input type="text"
+                                   name="resume_version"
+                                   value="{{ item.resume_version or '' }}">
+
+                            <label>Follow-up date</label>
+                            <input type="date"
+                                   name="follow_up_date"
+                                   value="{{ item.follow_up_date }}">
+
+                            <label>Interview notes</label>
+                            <textarea name="interview_notes" rows="3">{{ item.interview_notes }}</textarea>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox"
+                                       name="cover_letter_sent"
+                                       {% if item.cover_letter_sent %}checked{% endif %}>
+                                Cover letter sent
+                            </label>
+
+                            <button type="submit" class="small-save-button">
+                                Save changes
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ url_for('delete_application', application_id=item.application_id) }}"
+                              onsubmit="return confirm('Delete this application? This cannot be undone.');">
+                            <button type="submit" class="delete-button">
+                                Delete application
+                            </button>
+                        </form>
+                    </details>
+                </article>
+            {% else %}
+                <div class="board-empty">No closed applications.</div>
+            {% endfor %}
+        </section>
+
+    </div>
+
+    <!-- Add application form -->
+    <section class="add-application-section" id="add-application">
+        <div class="section-heading">
+            <p class="eyebrow">TAKE THE NEXT STEP</p>
+            <h2>Add an <em>application.</em></h2>
+            <p>Log a new application and keep your search moving.</p>
+        </div>
+
+        {% if job_options %}
+            <form method="POST"
+                  action="{{ url_for('add_application') }}"
+                  class="application-form">
+
+                <div class="form-field">
+                    <label for="job_id">Job opportunity</label>
+                    <select id="job_id" name="job_id" required>
+                        <option value="">Choose a saved job</option>
+                        {% for job in job_options %}
+                            <option value="{{ job.job_id }}">
+                                {{ job.job_title }} — {{ job.company_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="application_date">Date applied</label>
+                    <input id="application_date"
+                           type="date"
+                           name="application_date"
+                           required>
+                </div>
+
+                <div class="form-field">
+                    <label for="status">Current status</label>
+                    <select id="status" name="status">
+                        {% for status in statuses %}
+                            <option value="{{ status }}"
+                                {% if status == 'Applied' %}selected{% endif %}>
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="resume_version">Resume version</label>
+                    <input id="resume_version"
+                           type="text"
+                           name="resume_version"
+                           placeholder="e.g. IT-focused resume">
+                </div>
+
+                <div class="form-field">
+                    <label for="follow_up_date">
+                        Follow-up date <span>(optional)</span>
+                    </label>
+                    <input id="follow_up_date"
+                           type="date"
+                           name="follow_up_date">
+                </div>
+
+                <div class="form-field full-field">
+                    <label for="interview_notes">
+                        Notes <span>(optional)</span>
+                    </label>
+                    <textarea id="interview_notes"
+                              name="interview_notes"
+                              rows="3"
+                              placeholder="Recruiter details, interview notes, or next steps..."></textarea>
+                </div>
+
+                <label class="checkbox-label form-checkbox">
+                    <input type="checkbox" name="cover_letter_sent">
+                    Cover letter sent
+                </label>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-button">
+                        Save application ↗
+                    </button>
+                </div>
+            </form>
+        {% else %}
+            <div class="no-jobs-message">
+                <h3>No saved jobs to apply to just yet.</h3>
+                <p>
+                    Add a company and a job posting first.
+                    Your saved opportunities will appear here.
+                </p>
+                <a href="{{ url_for('jobs') }}" class="text-link">
+                    Go to your jobs →
+                </a>
+            </div>
+        {% endif %}
+    </section>
+
+</section>
+{% endblock %}
