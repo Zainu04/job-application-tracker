@@ -1,0 +1,142 @@
+
+{% extends "base.html" %}
+
+{% block title %}Job Match{% endblock %}
+
+{% block content %}
+<section class="job-match-page">
+
+    <div class="job-match-heading">
+        <span class="eyebrow">FIND YOUR FIT</span>
+        <h1>Find opportunities that <em>fit you.</em></h1>
+        <p>
+            Enter your skills and let Pursuit compare them with the
+            requirements of your saved jobs.
+        </p>
+    </div>
+
+    <section class="skills-input-card">
+        <div>
+            <span class="eyebrow">YOUR SKILL SET</span>
+            <h2>What do you bring to the table?</h2>
+            <p>Separate each skill with a comma.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('job_match') }}">
+            <label for="skills">Your skills</label>
+            <textarea
+                id="skills"
+                name="skills"
+                rows="4"
+                placeholder="Python, SQL, HTML, CSS, JavaScript..."
+                required
+            >{{ user_skills }}</textarea>
+
+            <button type="submit" class="primary-button">
+                Find my matches <span>↗</span>
+            </button>
+        </form>
+    </section>
+
+    {% if user_skills %}
+        <section class="match-results">
+            <div class="match-results-heading">
+                <div>
+                    <span class="eyebrow">YOUR RESULTS</span>
+                    <h2>Opportunities worth exploring</h2>
+                </div>
+                <span class="match-count">
+                    {{ matches|length }} matches
+                </span>
+            </div>
+
+            {% if matches %}
+                <div class="match-results-list">
+                    {% for job in matches %}
+                        <article class="match-card">
+                            <div class="match-card-top">
+                                <div>
+                                    <span class="match-company">
+                                        {{ job.company_name }}
+                                    </span>
+                                    <h3>{{ job.job_title }}</h3>
+                                    <span class="match-job-type">
+                                        {{ job.job_type or "Job opportunity" }}
+                                    </span>
+                                </div>
+
+                                <div class="match-score">
+                                    <strong>{{ job.match_percentage }}%</strong>
+                                    <span>skill match</span>
+                                </div>
+                            </div>
+
+                            <div class="match-progress-track">
+                                <div
+                                    class="match-progress-fill"
+                                    style="width: {{ job.match_percentage }}%;"
+                                ></div>
+                            </div>
+
+                            <div class="match-skill-columns">
+                                <div>
+                                    <h4>Skills you have</h4>
+                                    <div class="match-skill-list">
+                                        {% for skill in job.matching_skills %}
+                                            <span class="skill-match">
+                                                ✓ {{ skill }}
+                                            </span>
+                                        {% else %}
+                                            <span class="skill-empty">
+                                                No matching skills yet
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4>Skills to develop</h4>
+                                    <div class="match-skill-list">
+                                        {% for skill in job.missing_skills %}
+                                            <span class="skill-missing">
+                                                {{ skill }}
+                                            </span>
+                                        {% else %}
+                                            <span class="skill-empty">
+                                                You have all listed skills!
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if job.job_url %}
+                                <a
+                                    href="{{ job.job_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="match-job-link"
+                                >
+                                    View job posting ↗
+                                </a>
+                            {% endif %}
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="match-empty-state">
+                    <h3>No matchable jobs yet</h3>
+                    <p>
+                        Add jobs with skill requirements on your Jobs page,
+                        then come back to compare them with your skills.
+                    </p>
+                    <a href="{{ url_for('jobs') }}" class="primary-button">
+                        Explore saved jobs ↗
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
+
+</section>
+{% endblock %}

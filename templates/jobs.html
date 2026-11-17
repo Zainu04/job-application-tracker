@@ -1,0 +1,290 @@
+
+{% extends "base.html" %}
+
+{% block title %}Jobs{% endblock %}
+
+{% block content %}
+<section class="jobs-page">
+
+    <div class="jobs-heading">
+        <div>
+            <p class="eyebrow">FIND YOUR NEXT OPPORTUNITY</p>
+            <h1>Job opportunities</h1>
+            <p class="page-description">
+                Save interesting roles, keep their details organized, and
+                connect every opportunity to a company.
+            </p>
+        </div>
+
+        <a href="#add-job" class="primary-button">+ Add a job</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="jobs-overview">
+        <div class="job-overview-card">
+            <span class="overview-label">Jobs saved</span>
+            <strong>{{ jobs|length }}</strong>
+            <span class="overview-note">Opportunities in your collection</span>
+        </div>
+
+        <div class="job-overview-card">
+            <span class="overview-label">Companies represented</span>
+            <strong>{{ jobs|map(attribute='company_id')|unique|list|length }}</strong>
+            <span class="overview-note">Organizations with saved roles</span>
+        </div>
+    </div>
+
+    <div class="jobs-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">YOUR OPPORTUNITIES</p>
+                <h2>Saved jobs</h2>
+            </div>
+            <span class="company-count">{{ jobs|length }} total</span>
+        </div>
+
+        {% if jobs %}
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                    <article class="job-card">
+
+                        <div class="job-card-top">
+                            <div class="company-monogram">
+                                {{ (job.company_name or "?")[:1]|upper }}
+                            </div>
+                            <span class="job-type-pill">
+                                {{ job.job_type or "Type not specified" }}
+                            </span>
+                        </div>
+
+                        <p class="job-company">{{ job.company_name or "Company not found" }}</p>
+                        <h3>{{ job.job_title }}</h3>
+
+                        <div class="job-salary">
+                            {% if job.salary_min and job.salary_max %}
+                                ${{ "{:,}".format(job.salary_min) }} – ${{ "{:,}".format(job.salary_max) }}
+                            {% elif job.salary_min %}
+                                From ${{ "{:,}".format(job.salary_min) }}
+                            {% elif job.salary_max %}
+                                Up to ${{ "{:,}".format(job.salary_max) }}
+                            {% else %}
+                                Salary not listed
+                            {% endif %}
+                        </div>
+
+                        {% if job.date_posted %}
+                            <p class="job-posted">Posted {{ job.date_posted.strftime('%b %d, %Y') }}</p>
+                        {% endif %}
+
+                        {% if job.requirements_list %}
+                            <div class="job-skills">
+                                {% for skill in job.requirements_list %}
+                                    <span>{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="job-no-skills">No required skills added yet.</p>
+                        {% endif %}
+
+                        {% if job.job_url %}
+                            <a
+                                class="job-link"
+                                href="{{ job.job_url if job.job_url.startswith('http') else 'https://' + job.job_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                View job posting ↗
+                            </a>
+                        {% endif %}
+
+                        <details class="job-edit-details">
+                            <summary>Edit job details</summary>
+
+                            <form
+                                action="{{ url_for('edit_job', job_id=job.job_id) }}"
+                                method="POST"
+                                class="job-form"
+                            >
+                                <label>Company *</label>
+                                <select name="company_id" required>
+                                    {% for company in companies %}
+                                        <option
+                                            value="{{ company.company_id }}"
+                                            {% if company.company_id == job.company_id %}selected{% endif %}
+                                        >
+                                            {{ company.company_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
+                                <label>Job title *</label>
+                                <input type="text" name="job_title" value="{{ job.job_title }}" required>
+
+                                <label>Employment type</label>
+                                <select name="job_type">
+                                    <option value="">Select type</option>
+                                    {% for type in job_types %}
+                                        <option value="{{ type }}" {% if job.job_type == type %}selected{% endif %}>
+                                            {{ type }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
+                                <div class="job-form-row">
+                                    <div>
+                                        <label>Minimum salary ($)</label>
+                                        <input type="number" name="salary_min" min="0" value="{{ job.salary_min or '' }}">
+                                    </div>
+                                    <div>
+                                        <label>Maximum salary ($)</label>
+                                        <input type="number" name="salary_max" min="0" value="{{ job.salary_max or '' }}">
+                                    </div>
+                                </div>
+
+                                <label>Job posting URL</label>
+                                <input type="text" name="job_url" value="{{ job.job_url or '' }}">
+
+                                <label>Date posted</label>
+                                <input type="date" name="date_posted" value="{{ job.date_posted.isoformat() if job.date_posted else '' }}">
+
+                                <label>Required skills</label>
+                                <textarea name="requirements" rows="3">{{ job.requirements_text }}</textarea>
+                                <small>Separate each skill with a comma.</small>
+
+                                <button type="submit" class="primary-button">Save changes</button>
+                            </form>
+                        </details>
+
+                        <form
+                            action="{{ url_for('delete_job', job_id=job.job_id) }}"
+                            method="POST"
+                            class="job-delete-form"
+                            onsubmit="return confirm('Are you sure you want to delete this job?');"
+                        >
+                            <button type="submit" class="text-button delete-button">
+                                Delete job
+                            </button>
+                        </form>
+
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="jobs-empty">
+                <div class="empty-icon">✳</div>
+                <h3>Your next opportunity belongs here.</h3>
+                <p>
+                    Add a job you're interested in and connect it to one of
+                    your saved companies. Your collection will grow as you explore.
+                </p>
+                {% if not companies %}
+                    <p class="jobs-empty-note">
+                        First, add a company on the Companies page. You'll need
+                        at least one company before saving a job.
+                    </p>
+                    <a href="{{ url_for('companies') }}" class="primary-button">Go to companies</a>
+                {% else %}
+                    <a href="#add-job" class="primary-button">Add your first job</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <section class="add-job-section" id="add-job">
+        <div class="add-job-intro">
+            <p class="eyebrow">SAVE AN OPPORTUNITY</p>
+            <h2>Add a job</h2>
+            <p>
+                Keep the important details in one place. You can update
+                everything as you learn more about the role.
+            </p>
+        </div>
+
+        {% if companies %}
+            <form action="{{ url_for('add_job') }}" method="POST" class="add-job-form">
+
+                <div class="form-field">
+                    <label for="company_id">Company *</label>
+                    <select id="company_id" name="company_id" required>
+                        <option value="">Choose a company</option>
+                        {% for company in companies %}
+                            <option value="{{ company.company_id }}">{{ company.company_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="job_title">Job title *</label>
+                    <input
+                        type="text"
+                        id="job_title"
+                        name="job_title"
+                        placeholder="e.g. UX Designer"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="job_type">Employment type</label>
+                    <select id="job_type" name="job_type">
+                        <option value="">Choose a type</option>
+                        {% for type in job_types %}
+                            <option value="{{ type }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="job-form-row">
+                    <div class="form-field">
+                        <label for="salary_min">Minimum salary ($)</label>
+                        <input type="number" id="salary_min" name="salary_min" min="0" placeholder="e.g. 60000">
+                    </div>
+                    <div class="form-field">
+                        <label for="salary_max">Maximum salary ($)</label>
+                        <input type="number" id="salary_max" name="salary_max" min="0" placeholder="e.g. 80000">
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="job_url">Job posting URL</label>
+                    <input type="text" id="job_url" name="job_url" placeholder="https://example.com/careers/job">
+                </div>
+
+                <div class="form-field">
+                    <label for="date_posted">Date posted</label>
+                    <input type="date" id="date_posted" name="date_posted">
+                </div>
+
+                <div class="form-field">
+                    <label for="requirements">Required skills</label>
+                    <textarea
+                        id="requirements"
+                        name="requirements"
+                        rows="4"
+                        placeholder="Python, SQL, Communication, UX Research"
+                    ></textarea>
+                    <small>Separate each skill with a comma. We'll use these for Job Match later.</small>
+                </div>
+
+                <button type="submit" class="primary-button">Save job</button>
+            </form>
+        {% else %}
+            <div class="jobs-no-companies">
+                <h3>Add a company first</h3>
+                <p>Every job needs to be connected to a company in your tracker.</p>
+                <a href="{{ url_for('companies') }}" class="primary-button">Go to companies</a>
+            </div>
+        {% endif %}
+    </section>
+
+</section>
+{% endblock %}
