@@ -8,10 +8,10 @@ load_dotenv()
 
 # Database configuration
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST"),
+    "host": os.getenv("DB_HOST", "localhost"),
     "user": os.getenv("DB_USER"),
     "password": os.getenv("DB_PASSWORD"),
-    "database": os.getenv("DB_NAME")
+    "database": os.getenv("DB_NAME", "pursuit_tracker")
 }
 
 
@@ -22,5 +22,6 @@ def get_db_connection():
         return connection
 
     except mysql.connector.Error as error:
-        print(f"Database connection error: {error}")
-        return None
+        raise ConnectionError(
+            f"Unable to connect to the Pursuit database: {error}"
+        ) from error

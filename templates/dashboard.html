@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}Your Job Search, Organized{% endblock %}
@@ -69,9 +68,9 @@
                             <small>Total tracked</small>
                         </div>
                         <div class="preview-stat preview-stat-highlight">
-                            <span>Interviews</span>
+                            <span>In Progress</span>
                             <strong>{{ stats.interviews }}</strong>
-                            <small>Moving forward</small>
+                            <small>Screening or interview stage</small>
                         </div>
                     </div>
 
@@ -81,45 +80,45 @@
                     </div>
 
                     {% if recent_applications %}
-                        {% for application in recent_applications[:3] %}
-                        <div class="preview-application">
-                            <div class="preview-company-mark">
-                                {{ application.company_name[:1]|upper }}
-                            </div>
-                            <div class="preview-job">
-                                <strong>{{ application.job_title }}</strong>
-                                <span>{{ application.company_name }}</span>
-                            </div>
-                            <span class="preview-status status-{{ application.status|lower }}">
-                                {{ application.status }}
-                            </span>
+                    {% for application in recent_applications[:3] %}
+                    <div class="preview-application">
+                        <div class="preview-company-mark">
+                            {{ application.company_name[:1]|upper }}
                         </div>
-                        {% endfor %}
+                        <div class="preview-job">
+                            <strong>{{ application.job_title }}</strong>
+                            <span>{{ application.company_name }}</span>
+                        </div>
+                        <span class="preview-status status-{{ application.status|lower }}">
+                            {{ application.status }}
+                        </span>
+                    </div>
+                    {% endfor %}
                     {% else %}
-                        <div class="preview-application">
-                            <div class="preview-company-mark">A</div>
-                            <div class="preview-job">
-                                <strong>Product Designer</strong>
-                                <span>Company example</span>
-                            </div>
-                            <span class="preview-status status-interview">Interview</span>
+                    <div class="preview-application">
+                        <div class="preview-company-mark">A</div>
+                        <div class="preview-job">
+                            <strong>Product Designer</strong>
+                            <span>Company example</span>
                         </div>
-                        <div class="preview-application">
-                            <div class="preview-company-mark">B</div>
-                            <div class="preview-job">
-                                <strong>UX Research Intern</strong>
-                                <span>Company example</span>
-                            </div>
-                            <span class="preview-status status-applied">Applied</span>
+                        <span class="preview-status status-interview">Interview</span>
+                    </div>
+                    <div class="preview-application">
+                        <div class="preview-company-mark">B</div>
+                        <div class="preview-job">
+                            <strong>UX Research Intern</strong>
+                            <span>Company example</span>
                         </div>
-                        <div class="preview-application">
-                            <div class="preview-company-mark">C</div>
-                            <div class="preview-job">
-                                <strong>Business Analyst</strong>
-                                <span>Company example</span>
-                            </div>
-                            <span class="preview-status status-screening">Screening</span>
+                        <span class="preview-status status-applied">Applied</span>
+                    </div>
+                    <div class="preview-application">
+                        <div class="preview-company-mark">C</div>
+                        <div class="preview-job">
+                            <strong>Business Analyst</strong>
+                            <span>Company example</span>
                         </div>
+                        <span class="preview-status status-screening">Screening</span>
+                    </div>
                     {% endif %}
 
                     <div class="preview-bottom">
@@ -285,9 +284,9 @@
                     <small>Opportunities you're pursuing</small>
                 </div>
                 <div class="workspace-stat">
-                    <span>Interviews</span>
+                    <span>In Progress</span>
                     <strong>{{ stats.interviews }}</strong>
-                    <small>Conversations in progress</small>
+                    <small>Screening or interview stage</small>
                 </div>
                 <div class="workspace-stat">
                     <span>Companies</span>
