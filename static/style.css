@@ -3853,3 +3853,1033 @@ a {
         flex-direction: column;
     }
 }
+
+
+/* ==========================================
+   PURSUIT — POLISHED VISUAL REFINEMENTS
+   Frontend-only overrides; existing fonts and copy preserved.
+   ========================================== */
+
+:root {
+    --forest: #18382D;
+    --forest-light: #294D3D;
+    --beige: #E7D8C8;
+    --ivory: #F7F4EE;
+    --gold: #B88D5D;
+    --sage: #DCE8DD;
+    --text: #26382F;
+    --muted: #737F76;
+    --border: #E5DED4;
+    --surface-shadow: 0 12px 32px rgba(28, 49, 39, 0.075);
+    --surface-shadow-hover: 0 18px 42px rgba(28, 49, 39, 0.13);
+}
+
+/* Shared motion and page canvas */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 92% 8%, rgba(220, 232, 221, 0.48), transparent 28rem),
+        var(--ivory);
+}
+
+main {
+    min-height: 65vh;
+}
+
+.hero-copy,
+.hero-visual,
+.intro-inner,
+.section-heading-block,
+.feature-card,
+.workspace-heading,
+.workspace-panel,
+.how-inner,
+.final-cta-content,
+.companies-page,
+.jobs-page,
+.applications-page,
+.contacts-page,
+.job-match-page {
+    animation: pursuit-rise-in 650ms cubic-bezier(.2,.7,.25,1) both;
+}
+
+.hero-visual { animation-delay: 90ms; }
+.feature-card:nth-child(2) { animation-delay: 70ms; }
+.feature-card:nth-child(3) { animation-delay: 140ms; }
+.feature-card:nth-child(4) { animation-delay: 210ms; }
+
+@keyframes pursuit-rise-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark forest navigation */
+.site-header {
+    min-height: 82px;
+    background: linear-gradient(110deg, #17372C 0%, #204535 100%);
+    border-bottom: 1px solid rgba(255,255,255,.09);
+    box-shadow: 0 8px 24px rgba(18, 43, 32, .16);
+    padding-left: clamp(22px, 6.5vw, 100px);
+    padding-right: clamp(22px, 6.5vw, 100px);
+}
+
+.site-header .brand {
+    color: #FBF8F2;
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.site-header .brand:hover {
+    opacity: .88;
+    transform: translateY(-1px);
+}
+
+.site-header .brand span {
+    color: #D5B58C;
+}
+
+.main-nav {
+    gap: clamp(14px, 2.1vw, 32px);
+}
+
+.main-nav a {
+    color: rgba(250, 248, 242, .82);
+    position: relative;
+    padding: 9px 0;
+    transition: color .22s ease;
+}
+
+.main-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: #D9BE9B;
+    transition: right .24s ease;
+}
+
+.main-nav a:hover {
+    color: #FFFFFF;
+}
+
+.main-nav a:hover::after {
+    right: 0;
+}
+
+.nav-cta {
+    background: #E7D8C8;
+    color: #203B30;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 8px;
+    padding: 12px 19px;
+    box-shadow: 0 5px 14px rgba(10, 27, 19, .16);
+    transition: transform .22s ease, background .22s ease, box-shadow .22s ease;
+}
+
+.nav-cta:hover {
+    background: #F0E5D8;
+    color: #18382D;
+    transform: translateY(-2px);
+    box-shadow: 0 9px 20px rgba(10, 27, 19, .22);
+}
+
+.nav-cta span {
+    color: #876744;
+}
+
+/* Landing hero gains layered depth */
+.hero-section {
+    background:
+        radial-gradient(ellipse at 82% 40%, rgba(218, 229, 216, .78), transparent 34%),
+        linear-gradient(135deg, #FAF8F3 0%, #F4F0E8 100%);
+    padding-top: clamp(64px, 7vw, 92px);
+    padding-bottom: 70px;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border: 1px solid rgba(39, 75, 57, .08);
+    border-radius: 50%;
+    right: -150px;
+    top: 70px;
+    pointer-events: none;
+}
+
+.hero-copy h1 {
+    letter-spacing: -1.6px;
+}
+
+.hero-primary,
+.primary-button,
+.btn {
+    box-shadow: 0 6px 16px rgba(24, 56, 45, .12);
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.hero-primary:hover,
+.primary-button:hover,
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(24, 56, 45, .17);
+}
+
+.hero-visual .preview-window {
+    box-shadow: 0 28px 65px rgba(29, 54, 42, .17), 0 4px 12px rgba(29, 54, 42, .08);
+    border: 1px solid rgba(255,255,255,.85);
+}
+
+.floating-note {
+    box-shadow: 0 14px 32px rgba(29, 54, 42, .14);
+    border: 1px solid rgba(255,255,255,.85);
+}
+
+.intro-section {
+    background: #FFFFFF;
+    border-top: 1px solid rgba(35, 57, 43, .05);
+    border-bottom: 1px solid rgba(35, 57, 43, .05);
+}
+
+.features-section {
+    background:
+        radial-gradient(ellipse at 5% 0%, rgba(220,232,221,.48), transparent 30rem),
+        #F7F4EE;
+}
+
+.feature-card {
+    border: 1px solid rgba(224, 216, 204, .9);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(30, 54, 45, .055);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(184, 141, 93, .42);
+    box-shadow: 0 18px 38px rgba(30, 54, 45, .11);
+}
+
+.workspace-section {
+    background: linear-gradient(180deg, #F7F4EE 0%, #F0ECE4 100%);
+}
+
+.workspace-panel {
+    border: 1px solid rgba(224, 216, 204, .9);
+    border-radius: 18px;
+    box-shadow: 0 18px 44px rgba(30, 54, 45, .09);
+}
+
+.workspace-stat {
+    transition: background .22s ease, transform .22s ease;
+}
+
+.workspace-stat:hover {
+    background: rgba(220, 232, 221, .38);
+    transform: translateY(-3px);
+}
+
+.final-cta-section {
+    background: linear-gradient(115deg, #18382D 0%, #294D3D 100%);
+}
+
+.site-footer {
+    background: #142F26;
+    color: rgba(250,248,242,.75);
+}
+
+.site-footer .brand {
+    color: #FBF8F2;
+}
+
+.site-footer p,
+.site-footer .footer-copy {
+    color: rgba(250,248,242,.62);
+}
+
+/* Collection pages: more breathing room and polished surfaces */
+.companies-page,
+.jobs-page,
+.applications-page,
+.contacts-page,
+.job-match-page {
+    position: relative;
+    isolation: isolate;
+}
+
+.companies-page::before,
+.jobs-page::before,
+.applications-page::before,
+.contacts-page::before,
+.job-match-page::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 420px;
+    height: 420px;
+    top: 5px;
+    right: -180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220,232,221,.45), transparent 68%);
+    pointer-events: none;
+}
+
+.companies-heading,
+.jobs-heading,
+.applications-heading,
+.contacts-heading {
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 38px;
+}
+
+.companies-heading h1,
+.jobs-heading h1,
+.applications-heading h1,
+.contacts-heading h1 {
+    letter-spacing: -1px;
+}
+
+.page-description {
+    max-width: 650px;
+    line-height: 1.8;
+}
+
+.primary-button {
+    border-radius: 9px;
+    padding: 14px 22px;
+    background: #1E4032;
+}
+
+.primary-button:hover {
+    background: #2C5742;
+}
+
+.companies-overview,
+.jobs-overview,
+.contacts-overview {
+    gap: 18px;
+    margin-bottom: 34px;
+}
+
+.company-overview-card,
+.job-overview-card,
+.contact-overview-card,
+.summary-item {
+    background: linear-gradient(145deg, #FFFFFF 0%, #FBF9F5 100%);
+    border: 1px solid #E7DFD4;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(30,54,45,.055);
+    transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.company-overview-card:hover,
+.job-overview-card:hover,
+.contact-overview-card:hover,
+.summary-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(30,54,45,.10);
+}
+
+.companies-section,
+.jobs-section,
+.contacts-section,
+.application-board,
+.add-company-section,
+.add-job-section,
+.add-contact-section,
+.add-application-section,
+.skills-input-card {
+    border: 1px solid rgba(226, 218, 207, .9);
+    border-radius: 17px;
+    box-shadow: 0 12px 30px rgba(30,54,45,.065);
+}
+
+.companies-section,
+.jobs-section,
+.contacts-section,
+.application-board {
+    background: rgba(255,255,255,.88);
+    padding: clamp(22px, 3vw, 34px);
+}
+
+.company-card,
+.job-card,
+.contact-card,
+.application-card,
+.match-card {
+    border: 1px solid #E8E1D8;
+    border-radius: 14px;
+    box-shadow: 0 7px 20px rgba(30,54,45,.055);
+    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+
+.company-card:hover,
+.job-card:hover,
+.contact-card:hover,
+.application-card:hover,
+.match-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(184,141,93,.45);
+    box-shadow: 0 15px 30px rgba(30,54,45,.105);
+}
+
+.add-company-section,
+.add-job-section,
+.add-contact-section,
+.add-application-section {
+    background: linear-gradient(135deg, #F0EBE2 0%, #E9E3D9 100%);
+    padding: clamp(24px, 4vw, 42px);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea,
+.company-form input,
+.company-form select,
+.company-form textarea,
+.job-form input,
+.job-form select,
+.job-form textarea,
+.application-form input,
+.application-form select,
+.application-form textarea,
+.contact-form input,
+.contact-form select,
+.contact-form textarea,
+.skills-input-card textarea {
+    border-radius: 9px;
+    border: 1px solid #DCD4C9;
+    background: #FFFEFC;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus,
+.company-form input:focus,
+.company-form select:focus,
+.company-form textarea:focus,
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus,
+.application-form input:focus,
+.application-form select:focus,
+.application-form textarea:focus,
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus,
+.skills-input-card textarea:focus {
+    border-color: #789783;
+    box-shadow: 0 0 0 4px rgba(120,151,131,.15);
+    background: #FFFFFF;
+    outline: none;
+}
+
+.edit-details,
+.company-edit-details,
+.job-edit-details,
+.contact-edit-details {
+    border-radius: 10px;
+    background: #F8F5F0;
+}
+
+.flash-message {
+    border-radius: 10px;
+    box-shadow: 0 5px 16px rgba(30,54,45,.06);
+}
+
+/* Applications board and job-match surfaces */
+.application-summary {
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.application-summary .summary-item {
+    padding: 20px 22px;
+}
+
+.application-board {
+    background: rgba(255,255,255,.9);
+}
+
+.board-column {
+    border-radius: 13px;
+    border: 1px solid #E7E0D6;
+    background: #F8F6F1;
+}
+
+.skills-input-card {
+    background: linear-gradient(135deg, #F0EAE0 0%, #E8E2D8 100%);
+    padding: clamp(25px, 4vw, 38px);
+}
+
+.match-card {
+    background: linear-gradient(145deg, #FFFFFF 0%, #FCFAF6 100%);
+}
+
+.match-progress-fill {
+    background: linear-gradient(90deg, #64866F, #9AB49A);
+}
+
+.match-count {
+    border: 1px solid rgba(83,119,91,.12);
+}
+
+/* Consistent focus visibility */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(184,141,93,.72);
+    outline-offset: 3px;
+}
+
+/* Responsive navigation and content */
+@media (max-width: 900px) {
+    .site-header {
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .main-nav {
+        gap: 14px;
+    }
+
+    .main-nav a {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 650px) {
+    .site-header {
+        height: auto;
+        min-height: 70px;
+        padding: 15px 5%;
+        flex-wrap: wrap;
+        row-gap: 12px;
+    }
+
+    .site-header .brand {
+        font-size: 25px;
+    }
+
+    .nav-cta {
+        padding: 10px 13px;
+        font-size: 10px;
+    }
+
+    .main-nav {
+        display: flex;
+        order: 3;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 7px 17px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(255,255,255,.12);
+    }
+
+    .main-nav a {
+        font-size: 11px;
+        padding: 5px 0;
+    }
+
+    .hero-section {
+        padding-top: 48px;
+    }
+
+    .companies-heading,
+    .jobs-heading,
+    .applications-heading,
+    .contacts-heading {
+        align-items: flex-start;
+    }
+
+    .companies-overview,
+    .jobs-overview,
+    .contacts-overview {
+        gap: 12px;
+    }
+
+    .companies-section,
+    .jobs-section,
+    .contacts-section,
+    .application-board {
+        padding: 20px 16px;
+    }
+
+    .match-card-top {
+        flex-direction: column;
+    }
+
+    .match-score {
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* ==========================================
+   PURSUIT — focused photo + motion refinement
+   ========================================== */
+
+/* Home and page photography: real Unsplash editorial photos, not illustrations. */
+.hero-photo-visual {
+    min-height: 455px;
+    padding: 0;
+    border-radius: 18px;
+    overflow: visible;
+    background-image: linear-gradient(90deg, rgba(19, 45, 34, .78) 0%, rgba(19, 45, 34, .28) 55%, rgba(19, 45, 34, .04) 100%),
+        url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1500&q=88");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 28px 65px rgba(29, 54, 42, .20);
+    border: 1px solid rgba(255,255,255,.75);
+}
+.hero-photo-caption {
+    position: absolute;
+    left: 30px;
+    bottom: 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 270px;
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0,0,0,.25);
+}
+.photo-caption-kicker { font-size: 9px; letter-spacing: 2px; font-weight: 700; color: #E8D4B8; }
+.hero-photo-caption strong { font: 500 30px/1.16 "Playfair Display", Georgia, serif; }
+.hero-photo-caption small { font-size: 11px; line-height: 1.6; color: rgba(255,255,255,.9); }
+.photo-caption-line { width: 42px; height: 2px; background: #D9B98F; }
+.hero-photo-visual .floating-note { right: -18px; bottom: 20px; }
+
+.feature-photo-band {
+    min-height: 245px;
+    margin: 28px 0 34px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    background-image: linear-gradient(90deg, rgba(18,45,34,.72), rgba(18,45,34,.10)),
+      url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=88");
+    background-size: cover;
+    background-position: center 48%;
+    box-shadow: 0 15px 35px rgba(30,54,45,.12);
+}
+.feature-photo-overlay {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start; padding: 35px 5%; color: #fff;
+}
+.feature-photo-overlay span { font-size: 9px; letter-spacing: 2px; font-weight: 700; color: #E7D3B5; margin-bottom: 12px; }
+.feature-photo-overlay strong { font: 500 clamp(25px,3vw,38px)/1.2 "Playfair Display", Georgia, serif; }
+
+/* Large dashboard figures only: a crisp, editorial sans display face. */
+.workspace-stat strong {
+    font-family: "DM Sans", "Arial", sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1.8px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: #18382D;
+}
+
+/* Consistent photographic opening banner on tracker subpages. */
+.page-hero {
+    min-height: 245px;
+    display: flex;
+    align-items: center;
+    padding: 48px clamp(24px, 7vw, 100px);
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88) 0%, rgba(17,43,32,.62) 48%, rgba(17,43,32,.20) 100%),
+      url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=88");
+    background-size: cover;
+    background-position: center 52%;
+}
+.page-hero-content { max-width: 700px; position: relative; z-index: 1; }
+.page-hero-content > span { color: #E4C9A5; font-size: 9px; font-weight: 700; letter-spacing: 2px; }
+.page-hero-content h2 { margin: 12px 0 8px; font: 500 clamp(30px,4vw,48px)/1.15 "Playfair Display", Georgia, serif; color: #fff; }
+.page-hero-content h2 em { color: #E4C9A5; }
+.page-hero-content p { color: rgba(255,255,255,.88); font-size: 13px; }
+
+/* Scroll-triggered entrance animations. */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 650ms ease, transform 650ms cubic-bezier(.2,.7,.25,1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+.scroll-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.feature-card.scroll-reveal:nth-child(2) { transition-delay: 80ms; }
+.feature-card.scroll-reveal:nth-child(3) { transition-delay: 160ms; }
+.feature-card.scroll-reveal:nth-child(4) { transition-delay: 240ms; }
+
+@media (max-width: 850px) {
+    .hero-photo-visual { min-height: 360px; }
+    .hero-photo-visual .floating-note { right: 10px; }
+    .page-hero { min-height: 210px; }
+}
+@media (max-width: 650px) {
+    .hero-photo-visual { min-height: 290px; margin-bottom: 20px; }
+    .hero-photo-caption { left: 20px; bottom: 28px; }
+    .hero-photo-caption strong { font-size: 25px; }
+    .feature-photo-band { min-height: 205px; }
+    .page-hero { min-height: 190px; padding: 35px 6%; }
+    .page-hero-content p { max-width: 95%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-reveal, .scroll-reveal.is-visible { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* =====================================
+   PURSUIT — focused visual refinements
+   ===================================== */
+
+/* Warm beige navigation with a quiet edge. */
+.site-header {
+    background: #EDE3DA;
+    border-bottom: 1px solid rgba(30, 54, 45, 0.13);
+    box-shadow: 0 4px 14px rgba(48, 43, 36, 0.07);
+}
+.main-nav { gap: clamp(15px, 2.3vw, 32px); }
+.main-nav a { color: #536057; }
+.main-nav a:hover, .main-nav a.nav-home { color: var(--forest); }
+.nav-cta {
+    background: #F8F5F0;
+    color: var(--forest);
+    border: 1px solid rgba(30,54,45,.12);
+    box-shadow: 0 2px 7px rgba(30,54,45,.07);
+}
+.nav-cta:hover { background: #fff; color: var(--forest); }
+
+/* Keep the product mockup in the home hero rather than a stock-photo banner. */
+.hero-product-visual { padding: 20px 10px 35px; }
+.hero-product-visual .preview-window {
+    transform: rotate(1deg);
+    box-shadow: 0 25px 65px rgba(39,52,43,.14);
+}
+.hero-product-visual .preview-application > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.hero-product-visual .preview-application strong {
+    color: var(--forest);
+    font-size: 10px;
+}
+.hero-product-visual .preview-application small {
+    color: #898A80;
+    font-size: 8px;
+}
+.hero-product-visual .preview-status {
+    color: #49634F;
+    background: #E8EFE7;
+    border-radius: 20px;
+    padding: 5px 8px;
+    font-size: 8px;
+    white-space: nowrap;
+}
+.hero-product-visual .preview-company-mark {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    flex: 0 0 31px;
+    border-radius: 7px;
+    background: #E9EDE8;
+    color: var(--forest);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 14px;
+}
+.hero-product-visual .floating-note {
+    z-index: 3;
+}
+
+/* Real-world image alongside the "Less time organizing" introduction. */
+.intro-inner {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 68px);
+}
+.intro-photo-wrap {
+    height: 360px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 18px 38px rgba(39,52,43,.12);
+}
+.intro-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+.intro-content .intro-label { margin-bottom: 20px; }
+
+/* One separate, realistic photograph inside each feature card. */
+.feature-photo-card {
+    height: 155px;
+    margin: 22px 0;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #E8E4DC;
+}
+.feature-photo-card img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 550ms cubic-bezier(.2,.7,.25,1);
+}
+.feature-card:hover .feature-photo-card img { transform: scale(1.045); }
+.feature-card-large .feature-photo-card { height: 155px; }
+
+/* Individual photographic page banners: each page gets its own subject. */
+.page-hero {
+    min-height: 285px;
+    background-size: cover;
+    background-position: center;
+}
+.page-hero-content h2 { max-width: 750px; }
+.companies-hero {
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88), rgba(17,43,32,.40) 68%, rgba(17,43,32,.12)),
+      url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1900&q=88");
+    background-position: center 48%;
+}
+.jobs-hero {
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88), rgba(17,43,32,.42) 68%, rgba(17,43,32,.12)),
+      url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1900&q=88");
+    background-position: center 55%;
+}
+.applications-hero {
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88), rgba(17,43,32,.42) 68%, rgba(17,43,32,.12)),
+      url("https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1900&q=88");
+    background-position: center 52%;
+}
+.contacts-hero {
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88), rgba(17,43,32,.42) 68%, rgba(17,43,32,.12)),
+      url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1900&q=88");
+    background-position: center 46%;
+}
+.job-match-hero {
+    background-image: linear-gradient(90deg, rgba(17,43,32,.88), rgba(17,43,32,.42) 68%, rgba(17,43,32,.12)),
+      url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1900&q=88");
+    background-position: center 48%;
+}
+
+@media (max-width: 850px) {
+    .main-nav { gap: 13px; }
+    .intro-photo-wrap { height: 300px; }
+}
+@media (max-width: 650px) {
+    .site-header { height: auto; min-height: 76px; flex-wrap: wrap; gap: 12px; padding: 16px 5%; }
+    .main-nav { order: 3; width: 100%; flex-wrap: wrap; justify-content: flex-start; gap: 12px 18px; }
+    .main-nav a { font-size: 11px; }
+    .nav-cta { margin-left: auto; }
+    .intro-inner { grid-template-columns: 1fr; gap: 25px; }
+    .intro-photo-wrap { height: 245px; }
+    .feature-photo-card, .feature-card-large .feature-photo-card { height: 175px; }
+    .page-hero { min-height: 220px; }
+}
+
+
+/* Final visual refinements requested: retain the existing beige navigation. */
+.site-header {
+    background: var(--ivory);
+    border-bottom: 1px solid rgba(30, 54, 45, 0.13);
+    box-shadow: 0 5px 14px rgba(30, 54, 45, 0.055);
+}
+.site-header > .brand {
+    color: var(--forest) !important;
+}
+.site-header > .brand span {
+    color: var(--forest) !important;
+}
+.site-header .nav-cta {
+    background: var(--forest) !important;
+    color: #fff !important;
+}
+.site-header .nav-cta:hover {
+    background: #304E40 !important;
+}
+
+/* Tighten the vertical rhythm between the home page sections. */
+.features-section {
+    padding-bottom: 64px;
+}
+.workspace-section {
+    padding-top: 64px;
+    padding-bottom: 68px;
+}
+
+/* Page names already appear in their photographic hero banners. */
+.companies-heading h1,
+.jobs-heading h1,
+.applications-heading h1,
+.contacts-heading h1,
+.job-match-heading h1 {
+    display: none !important;
+}
+.companies-heading,
+.jobs-heading,
+.applications-heading,
+.contacts-heading {
+    margin-top: 0;
+}
+.job-match-heading {
+    margin-top: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+    .feature-photo-card.scroll-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+
+/* Final polish: reveal each complete feature card, including its photograph. */
+.feature-card.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 720ms ease, transform 720ms cubic-bezier(.2,.7,.25,1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+.feature-card.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reduce the gaps around the home-page feature, chart, and next-chapter sections. */
+.features-section { padding-bottom: 42px; }
+.workspace-section { padding-top: 54px; padding-bottom: 48px; }
+.how-section { padding-top: 54px; padding-bottom: 82px; }
+
+/* Professional footer that echoes the warm beige navigation. */
+.site-footer {
+    display: block;
+    min-height: 0;
+    padding: 48px clamp(24px, 7vw, 100px) 22px;
+    background: var(--ivory);
+    color: var(--forest);
+    border-top: 1px solid rgba(30,54,45,.12);
+}
+.footer-main {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.7fr) 1fr 1fr;
+    gap: 48px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-bottom: 36px;
+}
+.footer-brand-block .brand {
+    display: inline-block;
+    color: var(--forest);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 30px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.footer-brand-block .brand span { color: var(--forest); }
+.footer-brand-block p {
+    max-width: 270px;
+    margin-top: 12px;
+    color: #69736B;
+    font-size: 12px;
+    line-height: 1.8;
+}
+.footer-links-group { display: flex; flex-direction: column; align-items: flex-start; gap: 11px; }
+.footer-heading {
+    margin-bottom: 5px;
+    color: #8A755D;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+.footer-links-group a {
+    color: #536057;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color .2s ease, transform .2s ease;
+}
+.footer-links-group a:hover { color: var(--forest); transform: translateX(3px); }
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(30,54,45,.13);
+    color: #81877F;
+    font-size: 10px;
+}
+@media (max-width: 650px) {
+    .features-section { padding-bottom: 34px; }
+    .workspace-section { padding-top: 42px; padding-bottom: 40px; }
+    .how-section { padding-top: 42px; padding-bottom: 60px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 30px 22px; padding-bottom: 28px; }
+    .footer-brand-block { grid-column: 1 / -1; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .feature-card.scroll-reveal, .feature-card.scroll-reveal.is-visible { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* Home-page scroll reveals: animate each complete feature card (photo included)
+   and reveal the approach heading and numbered steps as one coordinated sequence. */
+.feature-card.scroll-reveal,
+.how-heading.scroll-reveal,
+.step-item.scroll-reveal {
+    animation: none !important;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.7,.25,1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+.feature-card.scroll-reveal.is-visible,
+.how-heading.scroll-reveal.is-visible,
+.step-item.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .feature-card.scroll-reveal,
+    .feature-card.scroll-reveal.is-visible,
+    .how-heading.scroll-reveal,
+    .how-heading.scroll-reveal.is-visible,
+    .step-item.scroll-reveal,
+    .step-item.scroll-reveal.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        animation: none !important;
+    }
+}

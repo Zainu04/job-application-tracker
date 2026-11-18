@@ -31,7 +31,7 @@
                 </a>
 
                 <a href="#features" class="btn btn-outline hero-secondary">
-                    Explore Features <span>↓</span>
+                    See how it works <span>↓</span>
                 </a>
             </div>
 
@@ -41,104 +41,42 @@
             </div>
         </div>
 
-        <!-- Product preview -->
-        <div class="hero-visual">
+        <!-- Product preview mockup -->
+        <div class="hero-visual hero-product-visual" aria-label="Preview of the Pursuit job application tracker">
             <div class="preview-window">
-
                 <div class="preview-topbar">
-                    <div class="preview-brand">pursuit<span>.</span></div>
-                    <div class="preview-dots">
-                        <i></i><i></i><i></i>
-                    </div>
+                    <span class="preview-brand">pursuit<span>.</span></span>
+                    <div class="preview-dots"><i></i><i></i><i></i></div>
                 </div>
-
                 <div class="preview-content">
                     <div class="preview-heading">
                         <div>
-                            <span class="preview-overline">YOUR WORKSPACE</span>
-                            <h3>Application overview</h3>
+                            <span class="preview-overline">YOUR OVERVIEW</span>
+                            <h3>Your job search, at a glance.</h3>
                         </div>
-                        <span class="preview-date">This month</span>
+                        <span class="preview-date">THIS MONTH</span>
                     </div>
-
                     <div class="preview-stats">
-                        <div class="preview-stat">
-                            <span>Applications</span>
-                            <strong>{{ stats.applications }}</strong>
-                            <small>Total tracked</small>
-                        </div>
-                        <div class="preview-stat preview-stat-highlight">
-                            <span>In Progress</span>
-                            <strong>{{ stats.interviews }}</strong>
-                            <small>Screening or interview stage</small>
-                        </div>
+                        <div class="preview-stat preview-stat-highlight"><span>Applications</span><strong>12</strong><small>Opportunities pursued</small></div>
+                        <div class="preview-stat"><span>Interviews</span><strong>04</strong><small>Next steps ahead</small></div>
                     </div>
-
-                    <div class="preview-list-heading">
-                        <strong>Recent activity</strong>
-                        <span>Latest applications</span>
-                    </div>
-
-                    {% if recent_applications %}
-                    {% for application in recent_applications[:3] %}
+                    <div class="preview-list-heading"><strong>Recent applications</strong><span>VIEW ALL ↗</span></div>
                     <div class="preview-application">
-                        <div class="preview-company-mark">
-                            {{ application.company_name[:1]|upper }}
-                        </div>
-                        <div class="preview-job">
-                            <strong>{{ application.job_title }}</strong>
-                            <span>{{ application.company_name }}</span>
-                        </div>
-                        <span class="preview-status status-{{ application.status|lower }}">
-                            {{ application.status }}
-                        </span>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="preview-application">
-                        <div class="preview-company-mark">A</div>
-                        <div class="preview-job">
-                            <strong>Product Designer</strong>
-                            <span>Company example</span>
-                        </div>
-                        <span class="preview-status status-interview">Interview</span>
+                        <span class="preview-company-mark">N</span><div><strong>Product Designer</strong><small>Northstar Studio</small></div><span class="preview-status">Interview</span>
                     </div>
                     <div class="preview-application">
-                        <div class="preview-company-mark">B</div>
-                        <div class="preview-job">
-                            <strong>UX Research Intern</strong>
-                            <span>Company example</span>
-                        </div>
-                        <span class="preview-status status-applied">Applied</span>
+                        <span class="preview-company-mark">A</span><div><strong>UX Research Associate</strong><small>Atlas Creative</small></div><span class="preview-status">Applied</span>
                     </div>
                     <div class="preview-application">
-                        <div class="preview-company-mark">C</div>
-                        <div class="preview-job">
-                            <strong>Business Analyst</strong>
-                            <span>Company example</span>
-                        </div>
-                        <span class="preview-status status-screening">Screening</span>
-                    </div>
-                    {% endif %}
-
-                    <div class="preview-bottom">
-                        <span>✦ Your next opportunity is worth pursuing.</span>
+                        <span class="preview-company-mark">M</span><div><strong>Digital Experience Intern</strong><small>Modern Works</small></div><span class="preview-status">Screening</span>
                     </div>
                 </div>
             </div>
-
             <div class="floating-note">
                 <span class="floating-note-icon">↗</span>
-                <div>
-                    <strong>Stay on track</strong>
-                    <small>All your opportunities, in one place</small>
-                </div>
+                <div><strong>Stay on track</strong><small>Every opportunity, in one place</small></div>
             </div>
-
-            <div class="hero-decoration hero-decoration-one"></div>
-            <div class="hero-decoration hero-decoration-two"></div>
         </div>
-
     </div>
 
     <a href="#features" class="scroll-cue">
@@ -151,12 +89,14 @@
 <!-- INTRODUCTION -->
 <section class="intro-section" id="features">
     <div class="section-container intro-inner">
-        <div class="intro-label">
-            <span class="eyebrow-line"></span>
-            THE PURSUIT APPROACH
+        <div class="intro-photo-wrap">
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1100&q=88" alt="Professionals collaborating around a laptop in a bright workspace">
         </div>
-
         <div class="intro-content">
+            <div class="intro-label">
+                <span class="eyebrow-line"></span>
+                THE PURSUIT APPROACH
+            </div>
             <h2>
                 Less time organizing.
                 <span>More time moving forward.</span>
@@ -189,21 +129,8 @@
                     <span class="feature-number">01 / ORGANIZE</span>
                     <span class="feature-symbol">▤</span>
                 </div>
-                <div class="feature-illustration mini-board">
-                    <div class="mini-board-column">
-                        <span>APPLIED</span>
-                        <div class="mini-board-item"></div>
-                        <div class="mini-board-item short"></div>
-                    </div>
-                    <div class="mini-board-column">
-                        <span>INTERVIEW</span>
-                        <div class="mini-board-item sage-item"></div>
-                        <div class="mini-board-item short sage-item"></div>
-                    </div>
-                    <div class="mini-board-column">
-                        <span>OFFER</span>
-                        <div class="mini-board-item gold-item"></div>
-                    </div>
+                <div class="feature-photo-card">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=88" alt="Hands organizing notes and a laptop at a desk">
                 </div>
                 <h3>Every application, accounted for.</h3>
                 <p>Track your applications, update their progress, and see your job search at a glance.</p>
@@ -214,14 +141,8 @@
                     <span class="feature-number">02 / DISCOVER</span>
                     <span class="feature-symbol">◎</span>
                 </div>
-                <div class="feature-illustration match-illustration">
-                    <div class="match-circle">
-                        <strong>86%</strong>
-                        <span>MATCH</span>
-                    </div>
-                    <div class="match-lines">
-                        <i></i><i></i><i></i>
-                    </div>
+                <div class="feature-photo-card">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=88" alt="Laptop and notebook on a desk while researching opportunities">
                 </div>
                 <h3>Find where your skills fit.</h3>
                 <p>Compare your skills with job requirements and discover where you stand.</p>
@@ -232,13 +153,8 @@
                     <span class="feature-number">03 / CONNECT</span>
                     <span class="feature-symbol">✧</span>
                 </div>
-                <div class="feature-illustration contact-illustration">
-                    <div class="contact-avatar">JD</div>
-                    <div class="contact-lines">
-                        <i></i><i></i>
-                        <span>Recruiter contact</span>
-                    </div>
-                    <div class="contact-small-card">Company connection</div>
+                <div class="feature-photo-card">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=88" alt="Colleagues having a professional networking conversation">
                 </div>
                 <h3>Keep your connections close.</h3>
                 <p>Save recruiter details, hiring contacts, and notes for every company.</p>
