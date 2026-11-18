@@ -247,6 +247,8 @@ A project demonstration video will showcase the application's main features, dat
 
 ## Author
 
+Zainab Akhtar
+
 Developed for:
 
 **COP4751 – Advanced Database Management**
