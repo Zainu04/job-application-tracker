@@ -243,7 +243,9 @@ The separate `AI_USAGE.md` file documents the use of these tools, including rele
 
 A project demonstration video will showcase the application's main features, database functionality, and user interface.
 
-**Video Link:** [Insert project demonstration video link]
+## Project Walkthrough Video
+
+[Watch the Pursuit Job Application Tracker Demo](Pursuit_Project_Walkthrough.mp4)
 
 ## Author
 
