@@ -245,7 +245,9 @@ A project demonstration video will showcase the application's main features, dat
 
 ## Project Walkthrough Video
 
-[Watch the Pursuit Job Application Tracker Demo](Pursuit_Project_Walkthrough.mp4)
+**Watch the demo:** [Pursuit Job Application Tracker – Project Demo](https://youtu.be/MPNizAUh1zU)
+
+**Download the video:** [Pursuit_Project_Walkthrough.mp4](Pursuit_Project_Walkthrough.mp4)
 
 ## Author
 
